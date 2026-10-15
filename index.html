@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="description" content="BLEACH: The Hollow Within — An interactive cinematic scrollytelling chronicle exploring Ichigo Kurosaki's seven transformative awakenings." />
+    <!-- Preload Hero Key Visual for optimal LCP -->
+    <link rel="preload" as="image" href="/assets/official/main_01.jpg" fetchpriority="high" />
+    <!-- Editorial Typography: Bebas Neue, Cinzel, Space Grotesk, Noto Serif JP -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel:wght@400;700;900&family=Noto+Serif+JP:wght@300;600;900&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-ink-deep text-bone antialiased selection:bg-crimson selection:text-white">
+    <!-- Film Grain Overlay -->
+    <div class="fixed inset-0 pointer-events-none z-50 film-grain" aria-hidden="true"></div>
+    
+    <!-- Ambient Reiatsu Vapor Backdrops (Optimized hardware-accelerated layer) -->
+    <div class="fixed -top-40 -right-40 w-[600px] h-[600px] bg-crimson/10 rounded-full pointer-events-none z-0" style="filter: blur(120px); transform: translate3d(0,0,0); will-change: transform;" aria-hidden="true"></div>
+    <div class="fixed bottom-10 left-10 w-[500px] h-[500px] bg-reiatsu/5 rounded-full pointer-events-none z-0" style="filter: blur(140px); transform: translate3d(0,0,0); will-change: transform;" aria-hidden="true"></div>
+    <div class="fixed inset-0 pointer-events-none z-0 opacity-[0.035] bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]" style="transform: translate3d(0,0,0);" aria-hidden="true"></div>
+
+    <!-- App / Scrollytelling Mount -->
+    <div id="app"></div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

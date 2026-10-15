@@ -1,0 +1,1721 @@
+/* ==========================================================================
+   BLEACH — THE HOLLOW WITHIN
+   Editorial Scrollytelling Stylesheet (Custom Vanilla CSS)
+   ========================================================================== */
+
+:root {
+  --color-ink: #050607;
+  --color-ink-deep: #020304;
+  --color-bone: #F4F4F6;
+  --color-bone-muted: #9E9EA8;
+  --color-crimson: #E50914;
+  --color-crimson-dark: #880006;
+  --color-reiatsu: #38BDF8;
+  --color-ash: #1B1C22;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-cinzel: 'Cinzel', serif;
+  --font-kanji: 'Noto Serif JP', serif;
+  --font-sans: 'Space Grotesk', sans-serif;
+  --header-height: 3.75rem;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --header-height: 4.5rem;
+  }
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-color: var(--color-ink-deep);
+  color: var(--color-bone);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+  background-color: var(--color-ink-deep);
+  color: var(--color-bone);
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--color-crimson);
+  color: #FFFFFF;
+}
+
+/* Accessibility Focus States */
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--color-crimson);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1.5rem;
+  z-index: 100;
+  background: var(--color-crimson);
+  color: #ffffff;
+  padding: 0.75rem 1.25rem;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 1.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   Atmospheric Overlays
+   -------------------------------------------------------------------------- */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.045'/%3E%3C/svg%3E");
+}
+
+.fixed { position: fixed; }
+.inset-0 { inset: 0; }
+.pointer-events-none { pointer-events: none; }
+.z-0 { z-index: 0; }
+.z-10 { z-index: 10; }
+.z-20 { z-index: 20; }
+.z-30 { z-index: 30; }
+.z-40 { z-index: 40; }
+.z-50 { z-index: 50; }
+
+@keyframes pulseReiatsu {
+  0%, 100% { opacity: 0.35; transform: scale(1); filter: blur(30px); }
+  50% { opacity: 0.65; transform: scale(1.08); filter: blur(45px); }
+}
+
+.reiatsu-aura {
+  animation: pulseReiatsu 6s ease-in-out infinite;
+}
+
+.writing-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+
+/* Typography Utility Classes */
+.font-display { font-family: var(--font-display); }
+.font-cinzel { font-family: var(--font-cinzel); }
+.font-kanji { font-family: var(--font-kanji); }
+.font-sans { font-family: var(--font-sans); }
+.font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+
+.text-bone { color: var(--color-bone); }
+.text-bone-muted { color: var(--color-bone-muted); }
+.text-crimson { color: var(--color-crimson); }
+.text-reiatsu { color: var(--color-reiatsu); }
+.text-ink { color: var(--color-ink); }
+.text-xs { font-size: 0.6875rem; }
+
+/* --------------------------------------------------------------------------
+   Header / Sticky Navigation (Audited for Zero Content Clashing)
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  height: var(--header-height);
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(2, 3, 4, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(244, 244, 246, 0.08);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+@media (min-width: 640px) {
+  .site-header { padding: 0 1.5rem; }
+}
+
+@media (min-width: 768px) {
+  .site-header { padding: 0 3.5rem; }
+}
+
+.site-wordmark {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  text-decoration: none;
+  min-height: 44px;
+}
+
+.wordmark-bleach {
+  font-family: var(--font-display);
+  font-size: clamp(1.65rem, 5vw, 2.25rem);
+  letter-spacing: 0.12em;
+  color: var(--color-bone);
+  transition: color 0.3s;
+}
+
+.wordmark-bleach:hover {
+  color: var(--color-crimson);
+}
+
+.wordmark-jp {
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  color: rgba(158, 158, 168, 0.6);
+  padding-left: 0.75rem;
+  border-left: 1px solid rgba(244, 244, 246, 0.2);
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .wordmark-jp { display: inline-block; }
+}
+
+.header-resonance {
+  display: none;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.375rem 0.85rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(244, 244, 246, 0.1);
+  background: rgba(0, 0, 0, 0.55);
+}
+
+@media (min-width: 1024px) {
+  .header-resonance { display: flex; }
+}
+
+.eq-bars {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 0.85rem;
+}
+
+.eq-bar { width: 2px; background: var(--color-bone); }
+.eq-bar-1 { height: 8px; background: var(--color-crimson); animation: pulseReiatsu 1.5s infinite; }
+.eq-bar-2 { height: 12px; }
+.eq-bar-3 { height: 6px; background: var(--color-bone-muted); }
+.eq-bar-4 { height: 14px; background: var(--color-reiatsu); animation: pulseReiatsu 1.8s infinite; }
+.eq-bar-5 { height: 5px; background: var(--color-bone-muted); }
+
+.resonance-label {
+  font-family: ui-monospace, monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.15em;
+  color: rgba(158, 158, 168, 0.8);
+  text-transform: uppercase;
+}
+
+.header-active-badge {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid rgba(244, 244, 246, 0.15);
+  background: rgba(5, 6, 7, 0.75);
+  transition: border-color 0.4s ease, background 0.4s ease;
+}
+
+@media (min-width: 640px) {
+  .header-active-badge { display: flex; }
+}
+
+.badge-num {
+  font-family: ui-monospace, monospace;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--color-crimson);
+  letter-spacing: 0.15em;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.badge-sep {
+  font-family: ui-monospace, monospace;
+  font-size: 0.625rem;
+  color: rgba(158, 158, 168, 0.4);
+}
+
+.badge-name {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  letter-spacing: 0.08em;
+  color: var(--color-bone);
+  text-transform: uppercase;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.chapter-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.85rem;
+  min-height: 44px;
+  min-width: 44px;
+  border: 1px solid rgba(244, 244, 246, 0.2);
+  background: rgba(0, 0, 0, 0.6);
+  color: var(--color-bone);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+@media (min-width: 640px) {
+  .chapter-btn {
+    gap: 0.6rem;
+    padding: 0.5rem 1rem;
+    letter-spacing: 0.2em;
+  }
+}
+
+.chapter-btn:hover {
+  border-color: var(--color-crimson);
+  color: #FFFFFF;
+}
+
+.chapter-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background-color: var(--color-crimson);
+}
+
+/* --------------------------------------------------------------------------
+   Vertical Docked Navigation
+   -------------------------------------------------------------------------- */
+.scene-dock {
+  position: fixed;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .scene-dock { display: flex; }
+}
+
+.scene-dock-line {
+  width: 1px;
+  height: 2.5rem;
+  background: linear-gradient(to bottom, transparent, rgba(244, 244, 246, 0.2), transparent);
+}
+
+.dock-items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dock-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  padding: 0.25rem;
+  cursor: pointer;
+}
+
+.dock-num {
+  position: absolute;
+  right: 1.5rem;
+  font-family: ui-monospace, monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  color: var(--color-bone-muted);
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.dock-item:hover .dock-num,
+.dock-item.active .dock-num {
+  opacity: 1;
+  transform: translateX(-0.25rem);
+}
+
+.dock-item.active .dock-num {
+  color: var(--color-crimson);
+  font-weight: 700;
+}
+
+.dock-pip {
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background-color: rgba(244, 244, 246, 0.3);
+  transition: all 0.3s;
+}
+
+.dock-item:hover .dock-pip {
+  background-color: var(--color-bone);
+  transform: scale(1.4);
+}
+
+.dock-item.active .dock-pip {
+  background-color: var(--color-crimson);
+  transform: scale(1.6);
+  box-shadow: 0 0 10px var(--color-crimson);
+}
+
+/* --------------------------------------------------------------------------
+   Scroll Cue Indicator
+   -------------------------------------------------------------------------- */
+.scroll-cue {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 35;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+@media (max-width: 640px) {
+  .scroll-cue { display: none; }
+}
+
+.scroll-cue-txt {
+  font-family: ui-monospace, monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.25em;
+  color: rgba(158, 158, 168, 0.7);
+  text-transform: uppercase;
+}
+
+.scroll-cue-pill {
+  width: 1.125rem;
+  height: 1.75rem;
+  border: 1px solid rgba(244, 244, 246, 0.3);
+  border-radius: 9999px;
+  display: flex;
+  justify-content: center;
+  padding-top: 0.25rem;
+}
+
+.scroll-cue-dot {
+  width: 3px;
+  height: 6px;
+  border-radius: 9999px;
+  background-color: var(--color-crimson);
+  animation: cueBounce 2s infinite ease-in-out;
+}
+
+@keyframes cueBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+/* --------------------------------------------------------------------------
+   Shared Scene / Section Base with Sticky Header Margin Protection
+   -------------------------------------------------------------------------- */
+.scene-section {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  scroll-margin-top: var(--header-height);
+}
+
+/* --------------------------------------------------------------------------
+   Editorial Gallery Poster Card (Audited for Zero Typography Collisions)
+   -------------------------------------------------------------------------- */
+.editorial-poster-card {
+  position: relative;
+  width: 100%;
+  max-width: min(440px, 52vh);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.poster-media-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1000 / 1414;
+  border: 1px solid rgba(244, 244, 246, 0.22);
+  background: #000000;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.85), 0 0 30px rgba(229, 9, 20, 0.1);
+  overflow: hidden;
+}
+
+.poster-media-frame.ratio-epilogue {
+  aspect-ratio: 1000 / 1413;
+}
+
+.poster-media-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: contrast(115%) brightness(96%);
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: block;
+}
+
+.editorial-poster-card:hover .poster-media-img {
+  transform: scale(1.025);
+}
+
+.poster-caption-bar {
+  margin-top: 0.6rem;
+  padding: 0.6rem 0.85rem;
+  background: rgba(15, 17, 22, 0.8);
+  border: 1px solid rgba(244, 244, 246, 0.12);
+  border-top: 2px solid var(--color-crimson);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.caption-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.caption-right {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex-shrink: 0;
+}
+
+/* Widescreen Editorial Card (For 16:9 Production Stills) */
+.editorial-widescreen-card {
+  position: relative;
+  width: 100%;
+  max-width: min(580px, 58vh);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.widescreen-media-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid rgba(244, 244, 246, 0.2);
+  background: #000000;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9), 0 0 30px rgba(229, 9, 20, 0.12);
+  overflow: hidden;
+}
+
+.widescreen-media-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: contrast(125%) brightness(92%);
+  display: block;
+  transition: transform 0.8s ease-out;
+}
+
+.editorial-widescreen-card:hover .widescreen-media-img {
+  transform: scale(1.02);
+}
+
+/* Corner Slits */
+.slit-tl {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-top: 2px solid rgba(244, 244, 246, 0.45);
+  border-right: 2px solid rgba(244, 244, 246, 0.45);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.slit-br {
+  position: absolute;
+  bottom: -6px;
+  left: -6px;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-bottom: 2px solid var(--color-crimson);
+  border-left: 2px solid var(--color-crimson);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   ACT 01 — THE SUBSTITUTE (HERO SCENE)
+   ========================================================================== */
+.scene-hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: calc(var(--header-height) + 1.25rem) 1.5rem 3rem 1.5rem;
+  background: var(--color-ink-deep);
+}
+
+@media (min-width: 640px) {
+  .scene-hero { padding: calc(var(--header-height) + 1.5rem) 3rem 3.5rem 3rem; }
+}
+
+@media (min-width: 1024px) {
+  .scene-hero { padding: calc(var(--header-height) + 1.5rem) 4rem 3.5rem 4rem; }
+}
+
+.hero-editorial-grid {
+  max-width: 90rem;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+@media (min-width: 1024px) {
+  .hero-editorial-grid {
+    grid-template-columns: 1.25fr 0.95fr;
+    gap: 4.5rem;
+  }
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 48rem;
+}
+
+.hero-meta-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.kicker-line {
+  width: 1.5rem;
+  height: 1.5px;
+  background-color: var(--color-crimson);
+}
+
+.kicker-title {
+  font-family: ui-monospace, monospace;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  color: var(--color-crimson);
+  text-transform: uppercase;
+}
+
+.kicker-sub {
+  font-size: 0.625rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(158, 158, 168, 0.8);
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6.5vw, 6.25rem);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--color-bone);
+  margin-bottom: 0.75rem;
+}
+
+.hero-title-highlight {
+  color: var(--color-bone);
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.15);
+}
+
+.hero-blood-slash {
+  width: 7rem;
+  height: 3px;
+  background: linear-gradient(to right, var(--color-crimson), transparent);
+  margin-bottom: 1.25rem;
+}
+
+.hero-tagline {
+  font-family: var(--font-cinzel);
+  font-size: clamp(1rem, 1.6vw, 1.35rem);
+  color: rgba(244, 244, 246, 0.9);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  line-height: 1.35;
+  margin-bottom: 0.75rem;
+  max-width: 36rem;
+}
+
+.hero-synopsis {
+  font-size: 0.78125rem;
+  color: var(--color-bone-muted);
+  line-height: 1.6;
+  max-width: 32rem;
+  border-left: 1px solid rgba(244, 244, 246, 0.2);
+  padding-left: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .hero-actions {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.btn-primary-journey {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.65rem;
+  background-color: var(--color-bone);
+  color: var(--color-ink);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+}
+
+.btn-primary-journey:hover {
+  background-color: var(--color-crimson);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(229, 9, 20, 0.35);
+}
+
+.btn-primary-journey:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+}
+
+.btn-corner-accent {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-crimson);
+  transition: background-color 0.3s;
+}
+
+.btn-primary-journey:hover .btn-corner-accent {
+  background-color: var(--color-bone);
+}
+
+.hero-specs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  padding-top: 1.25rem;
+  margin-top: 1.25rem;
+  border-top: 1px solid rgba(244, 244, 246, 0.1);
+  max-width: 34rem;
+}
+
+.spec-lbl {
+  font-family: ui-monospace, monospace;
+  font-size: 0.5625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(158, 158, 168, 0.6);
+}
+
+.spec-val {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--color-bone);
+  margin-top: 0.15rem;
+}
+
+.spec-jp {
+  font-family: var(--font-kanji);
+  font-size: 0.625rem;
+  color: var(--color-crimson);
+}
+
+/* Kanji watermarks */
+.scene-kanji-watermark {
+  position: absolute;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  user-select: none;
+  pointer-events: none;
+  z-index: 1;
+  display: none;
+  opacity: 0.04;
+}
+
+@media (min-width: 1280px) {
+  .scene-kanji-watermark { display: flex; }
+}
+
+.scene-kanji-watermark span {
+  font-family: var(--font-kanji);
+  font-size: 14vw;
+  font-weight: 900;
+  color: var(--color-bone);
+  line-height: 1;
+}
+
+/* ==========================================================================
+   ACT 02 — THE BLADE (CUTOUT MODEL & BLADE FOCUS)
+   ========================================================================== */
+.scene-the-blade {
+  background-color: var(--color-ink);
+  padding: calc(var(--header-height) + 2rem) 1.5rem 5rem 1.5rem;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid rgba(244, 244, 246, 0.1);
+}
+
+@media (min-width: 640px) {
+  .scene-the-blade { padding: calc(var(--header-height) + 2.5rem) 3rem 6rem 3rem; }
+}
+
+@media (min-width: 1024px) {
+  .scene-the-blade { padding: calc(var(--header-height) + 3rem) 5rem 6rem 5rem; }
+}
+
+.blade-layout-grid {
+  max-width: 86rem;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3.5rem;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+@media (min-width: 1024px) {
+  .blade-layout-grid {
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 5rem;
+  }
+}
+
+.blade-character-showcase {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 520px;
+  background: radial-gradient(circle at center, rgba(56, 189, 248, 0.08) 0%, transparent 70%);
+  border: 1px solid rgba(244, 244, 246, 0.1);
+  padding: 2rem 1.5rem 1rem 1.5rem;
+}
+
+.blade-model-img {
+  max-height: 540px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.9));
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.8s ease-out;
+  display: block;
+}
+
+.blade-character-showcase:hover .blade-model-img {
+  transform: scale(1.025);
+}
+
+.blade-badge-floating {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.25rem;
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid var(--color-crimson);
+  padding: 0.35rem 0.85rem;
+  font-family: ui-monospace, monospace;
+  font-size: 0.625rem;
+  color: var(--color-bone);
+  letter-spacing: 0.15em;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   ACT 03 — THE HOLLOW WITHIN (AUDITED GENEALOGICAL ORIGIN STILL)
+   ========================================================================== */
+.scene-hollow-within {
+  background-color: var(--color-ink-deep);
+  padding: calc(var(--header-height) + 2rem) 1.5rem 5rem 1.5rem;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid rgba(244, 244, 246, 0.1);
+}
+
+@media (min-width: 640px) {
+  .scene-hollow-within { padding: calc(var(--header-height) + 2.5rem) 3rem 6rem 3rem; }
+}
+
+@media (min-width: 1024px) {
+  .scene-hollow-within { padding: calc(var(--header-height) + 3rem) 5rem 6rem 5rem; }
+}
+
+.hollow-layout-grid {
+  max-width: 90rem;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3.5rem;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+@media (min-width: 1024px) {
+  .hollow-layout-grid {
+    grid-template-columns: 1.25fr 0.95fr;
+    gap: 4.5rem;
+  }
+}
+
+.context-clarification-box {
+  margin-top: 1.5rem;
+  padding: 1.15rem 1.25rem;
+  background: rgba(229, 9, 20, 0.06);
+  border-left: 2px solid var(--color-crimson);
+  font-size: 0.78125rem;
+  line-height: 1.65;
+  color: var(--color-bone-muted);
+}
+
+/* ==========================================================================
+   ACT 04 — BANKAI (CINEMATIC ANAMORPHIC SEQUENCE)
+   ========================================================================== */
+.scene-bankai {
+  background-color: var(--color-ink);
+  padding: calc(var(--header-height) + 2rem) 1.5rem 5rem 1.5rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-top: 1px solid rgba(244, 244, 246, 0.1);
+}
+
+@media (min-width: 640px) {
+  .scene-bankai { padding: calc(var(--header-height) + 2.5rem) 3rem 6rem 3rem; }
+}
+
+@media (min-width: 1024px) {
+  .scene-bankai { padding: calc(var(--header-height) + 3rem) 5rem 6rem 5rem; }
+}
+
+.bankai-cinematic-container {
+  max-width: 90rem;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.bankai-theater-box {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2.35 / 1;
+  min-height: 280px;
+  max-height: 500px;
+  background: #000000;
+  border: 1px solid rgba(244, 244, 246, 0.25);
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.95);
+}
+
+.bankai-theater-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  filter: contrast(130%) brightness(95%);
+  display: block;
+}
+
+.bankai-letterbox-top,
+.bankai-letterbox-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 8%;
+  background: #000000;
+  z-index: 5;
+}
+
+.bankai-letterbox-top { top: 0; }
+.bankai-letterbox-bottom { bottom: 0; }
+
+.bankai-banner-overlay {
+  position: absolute;
+  bottom: 12%;
+  left: 2rem;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background: rgba(2, 3, 4, 0.65);
+  padding: 0.75rem 1.25rem;
+  backdrop-filter: blur(8px);
+  border-left: 2px solid var(--color-crimson);
+}
+
+.bankai-slash-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 5.5vw, 5rem);
+  line-height: 0.9;
+  letter-spacing: 0.05em;
+  color: var(--color-bone);
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+}
+
+.bankai-details-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .bankai-details-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+}
+
+/* ==========================================================================
+   ACT 05 — THE FINAL GETSUGA (AUDITED MONOLITH & DISSOLUTION ARCHIVE)
+   ========================================================================== */
+.scene-final-getsuga {
+  background-color: var(--color-ink-deep);
+  padding: calc(var(--header-height) + 2rem) 1.5rem 5rem 1.5rem;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid rgba(244, 244, 246, 0.1);
+}
+
+@media (min-width: 640px) {
+  .scene-final-getsuga { padding: calc(var(--header-height) + 2.5rem) 3rem 6rem 3rem; }
+}
+
+@media (min-width: 1024px) {
+  .scene-final-getsuga { padding: calc(var(--header-height) + 3rem) 5rem 6rem 5rem; }
+}
+
+.getsuga-monolith-container {
+  max-width: 86rem;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .getsuga-monolith-container {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 4rem;
+  }
+}
+
+.getsuga-archival-card {
+  position: relative;
+  background: rgba(10, 11, 14, 0.85);
+  border: 1px solid rgba(244, 244, 246, 0.15);
+  padding: 2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+}
+
+.archival-disclaimer-pill {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.75rem 1rem;
+  background: rgba(229, 9, 20, 0.08);
+  border-left: 2px solid var(--color-crimson);
+  font-family: ui-monospace, monospace;
+  font-size: 0.6875rem;
+  color: var(--color-bone);
+  letter-spacing: 0.05em;
+  margin-top: 1.5rem;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   ACT 06 — THE FINAL FORM (DUAL BLADES "THE BLADE IS ME")
+   ========================================================================== */
+.scene-final-form {
+  background-color: var(--color-ink);
+  padding: calc(var(--header-height) + 2rem) 1.5rem 5rem 1.5rem;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid rgba(244, 244, 246, 0.1);
+}
+
+@media (min-width: 640px) {
+  .scene-final-form { padding: calc(var(--header-height) + 2.5rem) 3rem 6rem 3rem; }
+}
+
+@media (min-width: 1024px) {
+  .scene-final-form { padding: calc(var(--header-height) + 3rem) 5rem 6rem 5rem; }
+}
+
+.final-form-grid {
+  max-width: 90rem;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .final-form-grid {
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 4.5rem;
+  }
+}
+
+.combat-still-inset {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(20, 22, 28, 0.6);
+  border: 1px solid rgba(244, 244, 246, 0.12);
+  padding: 0.75rem;
+}
+
+.combat-still-thumbnail {
+  width: 120px;
+  height: 68px;
+  object-fit: cover;
+  border: 1px solid rgba(244, 244, 246, 0.2);
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   ACT 07 — EPILOGUE (HORIZON TRANQUIL MATTING)
+   ========================================================================== */
+.scene-epilogue {
+  background-color: var(--color-ink-deep);
+  padding: calc(var(--header-height) + 2rem) 1.5rem 5rem 1.5rem;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid rgba(244, 244, 246, 0.1);
+}
+
+@media (min-width: 640px) {
+  .scene-epilogue { padding: calc(var(--header-height) + 2.5rem) 3rem 6rem 3rem; }
+}
+
+@media (min-width: 1024px) {
+  .scene-epilogue { padding: calc(var(--header-height) + 3rem) 5rem 6rem 5rem; }
+}
+
+.epilogue-grid {
+  max-width: 86rem;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .epilogue-grid {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 4.5rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Generic Chapter Components (Headings, Kickers, Tech Items)
+   -------------------------------------------------------------------------- */
+.chapter-copy-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.act-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.act-kicker-badge {
+  font-family: ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-crimson);
+}
+
+.act-kicker-bar {
+  width: 2rem;
+  height: 1px;
+  background-color: rgba(244, 244, 246, 0.3);
+}
+
+.chapter-heading {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--color-bone);
+  margin-bottom: 1.25rem;
+}
+
+.chapter-quote {
+  font-family: var(--font-cinzel);
+  font-size: 1.05rem;
+  color: var(--color-bone-muted);
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.chapter-desc {
+  font-size: 0.8125rem;
+  color: rgba(158, 158, 168, 0.8);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.chapter-tech-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.tech-item {
+  padding: 1rem;
+  background: rgba(27, 28, 34, 0.5);
+  border-left: 2px solid var(--color-crimson);
+  transition: background-color 0.2s;
+}
+
+.tech-item.secondary {
+  border-left-color: rgba(244, 244, 246, 0.2);
+}
+
+.tech-item:hover {
+  background: rgba(27, 28, 34, 0.85);
+}
+
+.tech-item.secondary:hover {
+  border-left-color: var(--color-reiatsu);
+}
+
+.tech-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tech-name {
+  font-family: ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-bone);
+  text-transform: uppercase;
+}
+
+.tech-badge {
+  font-family: ui-monospace, monospace;
+  font-size: 0.625rem;
+  color: var(--color-crimson);
+}
+
+.tech-item.secondary .tech-badge {
+  color: var(--color-bone-muted);
+}
+
+.tech-desc {
+  font-size: 0.7rem;
+  color: var(--color-bone-muted);
+  margin-top: 0.25rem;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   Interlude Poem & Site Footer
+   -------------------------------------------------------------------------- */
+.scene-quote-interlude {
+  position: relative;
+  padding: 5rem 1.5rem;
+  background-color: var(--color-ink-deep);
+  border-top: 1px solid rgba(244, 244, 246, 0.1);
+  border-bottom: 1px solid rgba(244, 244, 246, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  scroll-margin-top: var(--header-height);
+}
+
+.interlude-poem {
+  font-family: var(--font-cinzel);
+  font-size: clamp(1.25rem, 3vw, 1.875rem);
+  font-weight: 300;
+  color: var(--color-bone);
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+  margin: 1rem 0;
+}
+
+.site-footer {
+  position: relative;
+  background-color: #000000;
+  color: var(--color-bone);
+  padding: 4.5rem 1.5rem 3rem 1.5rem;
+  border-top: 1px solid rgba(244, 244, 246, 0.15);
+  scroll-margin-top: var(--header-height);
+}
+
+@media (min-width: 640px) {
+  .site-footer { padding-left: 3.5rem; padding-right: 3.5rem; }
+}
+
+.footer-inner {
+  max-width: 86rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.footer-top {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: space-between;
+}
+
+@media (min-width: 768px) {
+  .footer-top {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.footer-legal-box {
+  padding: 1.5rem;
+  background: rgba(15, 17, 22, 0.6);
+  border: 1px solid rgba(244, 244, 246, 0.1);
+  font-size: 0.75rem;
+  line-height: 1.7;
+  color: var(--color-bone-muted);
+}
+
+.footer-legal-title {
+  font-family: ui-monospace, monospace;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--color-crimson);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(244, 244, 246, 0.08);
+  font-size: 0.75rem;
+}
+
+/* --------------------------------------------------------------------------
+   Chapters Modal Overlay (Accessible Dialog)
+   -------------------------------------------------------------------------- */
+.chapter-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.chapter-modal-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.chapter-modal-card {
+  max-width: 40rem;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  border: 1px solid rgba(244, 244, 246, 0.2);
+  padding: 2.5rem;
+  position: relative;
+  background: var(--color-ink);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: transparent;
+  border: none;
+  color: var(--color-bone);
+  cursor: pointer;
+  font-family: ui-monospace, monospace;
+  font-size: 0.8125rem;
+  letter-spacing: 0.15em;
+  transition: color 0.2s;
+  padding: 0.5rem;
+}
+
+.modal-close-btn:hover {
+  color: var(--color-crimson);
+}
+
+/* --------------------------------------------------------------------------
+   Mobile & Responsive Enhancements (320px - 768px Breakpoint Audit)
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .scene-section {
+    min-height: auto;
+    padding-top: calc(var(--header-height) + 1.5rem) !important;
+    padding-bottom: 3.5rem !important;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+
+  .scene-hero {
+    min-height: 100vh;
+    padding-top: calc(var(--header-height) + 1rem) !important;
+    padding-bottom: 3rem !important;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+
+  .hero-editorial-grid,
+  .blade-layout-grid,
+  .hollow-layout-grid,
+  .final-form-grid,
+  .epilogue-grid {
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+  }
+
+  /* Hero Mobile Refinements */
+  .hero-title {
+    font-size: clamp(2.4rem, 11vw, 3.75rem);
+    line-height: 0.95;
+    word-break: break-word;
+  }
+
+  .hero-tagline {
+    font-size: clamp(0.95rem, 4vw, 1.15rem);
+    line-height: 1.4;
+  }
+
+  .hero-synopsis {
+    font-size: 0.78125rem;
+    line-height: 1.6;
+    max-width: 100%;
+  }
+
+  .hero-actions {
+    width: 100%;
+  }
+
+  .btn-primary-journey {
+    width: 100%;
+    justify-content: center;
+    padding: 0.95rem 1.5rem;
+    font-size: 0.8125rem;
+    min-height: 48px;
+    box-sizing: border-box;
+  }
+
+  .hero-specs-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    max-width: 100%;
+  }
+
+  .hero-specs-grid > div:last-child {
+    grid-column: span 2;
+  }
+
+  /* Editorial Cards Mobile Constraints */
+  .editorial-poster-card {
+    max-width: min(340px, 90vw);
+  }
+
+  .editorial-widescreen-card {
+    max-width: 100%;
+  }
+
+  .poster-caption-bar {
+    padding: 0.5rem 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .poster-caption-bar .caption-left p,
+  .poster-caption-bar .caption-right p {
+    font-size: 0.625rem;
+  }
+
+  /* Act 02 Character Model */
+  .blade-character-showcase {
+    min-height: 380px;
+    padding: 1.5rem 1rem 1rem 1rem;
+  }
+
+  .blade-model-img {
+    max-height: 360px;
+  }
+
+  /* Act 04 Bankai Mobile */
+  .bankai-cinematic-container {
+    gap: 1.5rem;
+  }
+
+  .bankai-theater-box {
+    aspect-ratio: 16 / 9;
+    min-height: 200px;
+    max-height: 360px;
+  }
+
+  .bankai-banner-overlay {
+    left: 1rem;
+    bottom: 8%;
+    padding: 0.5rem 0.85rem;
+  }
+
+  .bankai-slash-title {
+    font-size: clamp(1.75rem, 8vw, 2.75rem);
+  }
+
+  /* Act 05 Getsuga Monolith */
+  .getsuga-monolith-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .getsuga-archival-card {
+    padding: 1.5rem;
+  }
+
+  /* Act 06 Combat Inset */
+  .combat-still-inset {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .combat-still-thumbnail {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  /* Chapter Titles & Texts */
+  .chapter-heading {
+    font-size: clamp(2.25rem, 10vw, 3.5rem);
+    line-height: 1;
+    word-break: break-word;
+    margin-bottom: 1rem;
+  }
+
+  .chapter-quote {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    margin-bottom: 1rem;
+  }
+
+  .chapter-desc {
+    font-size: 0.8125rem;
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Poem Interlude & Footer */
+  .scene-quote-interlude {
+    padding: 3.5rem 1.25rem;
+  }
+
+  .interlude-poem {
+    font-size: clamp(1.15rem, 5vw, 1.5rem);
+    line-height: 1.5;
+  }
+
+  .site-footer {
+    padding: 3.5rem 1.25rem 2.5rem 1.25rem;
+  }
+
+  .footer-inner {
+    gap: 2rem;
+  }
+
+  .footer-legal-box {
+    padding: 1.15rem;
+    font-size: 0.7rem;
+  }
+
+  /* Chapter Navigation Modal */
+  .chapter-modal-card {
+    padding: 1.75rem 1.25rem;
+    max-height: 90vh;
+  }
+
+  .modal-close-btn {
+    top: 1rem;
+    right: 1rem;
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-nav-link {
+    min-height: 48px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Small Screen Adjustments (320px - 360px Viewports)
+   -------------------------------------------------------------------------- */
+@media (max-width: 360px) {
+  .site-header {
+    padding: 0 0.75rem;
+  }
+
+  .wordmark-bleach {
+    font-size: 1.45rem;
+  }
+
+  .chapter-btn {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.6875rem;
+  }
+
+  .hero-title {
+    font-size: 2.15rem;
+  }
+
+  .hero-specs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-specs-grid > div:last-child {
+    grid-column: span 1;
+  }
+
+  .blade-character-showcase {
+    min-height: 320px;
+  }
+
+  .blade-model-img {
+    max-height: 300px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced Motion Support (Audited Accessibility)
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reiatsu-aura { animation: none !important; }
+  .eq-bar-1, .eq-bar-4 { animation: none !important; }
+  .scroll-cue-dot { animation: none !important; }
+  .scene-section, 
+  .editorial-poster-card, 
+  .editorial-widescreen-card, 
+  .blade-character-showcase,
+  .chapter-copy-wrap,
+  .bankai-theater-box,
+  .getsuga-archival-card {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
