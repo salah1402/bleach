@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
+.vercel
 
 # Editor directories and files
 .vscode/*
@@ -40,3 +41,6 @@ public/assets/official/*/prev_*
 public/assets/official/contact-sheet.*
 public/assets/official/*/catalog.*
 src/assets/hero.png
+
+.vercel
+.env*
